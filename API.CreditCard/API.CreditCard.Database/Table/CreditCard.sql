@@ -1,0 +1,9 @@
+﻿CREATE TABLE [dbo].[CreditCard]
+(
+	[Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, 
+    [CardId] UNIQUEIDENTIFIER NOT NULL, 
+    [Name] NVARCHAR(50) NOT NULL, 
+    [CardNumber] NVARCHAR(50) NOT NULL, 
+    [CVC] NVARCHAR(50) NOT NULL, 
+    [ExpiryDate] DATETIME NOT NULL
+)
