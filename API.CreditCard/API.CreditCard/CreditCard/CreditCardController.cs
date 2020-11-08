@@ -11,7 +11,8 @@ namespace API.CreditCard.CreditCard
 {
     [Route("")]
     [ApiController]
-    //AuthorizationFilter could be added based on roles.
+    //TODO: IdentityJwt implementation to verify the identity of the caller.
+    //TODO:AuthorizationFilter could be added based on roles.
     public class CreditCardController : ControllerBase
     {
         private ICreditCardService _creditCardService { get; set; }
