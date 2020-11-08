@@ -56,7 +56,7 @@ namespace API.CreditCard
         #endregion
     }
 
-    interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork : IDisposable
     {
         Guid Id { get; }
         ISqlDbConnection Connection { get; }

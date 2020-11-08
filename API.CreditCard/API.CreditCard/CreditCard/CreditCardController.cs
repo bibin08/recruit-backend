@@ -26,7 +26,6 @@ namespace API.CreditCard.CreditCard
         /// <returns>List of Credit Cards</returns>
         [HttpGet]
         [Route("~/v1/Cards")]
-        [Swa]
         public async Task<IEnumerable<CreditCardViewModel>> GetAll()
         {
             return await _creditCardService.GetAll();
