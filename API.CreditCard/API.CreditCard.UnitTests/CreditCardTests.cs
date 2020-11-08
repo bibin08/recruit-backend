@@ -14,20 +14,14 @@ namespace API.CreditCard.UnitTests
     public class Tests
     {
         private Mock<ICreditCardRepository> _creditCardRepositoryMock { get; set; }
-        private Mock<ICreditCardService> _creditCardServiceMock { get; set; }
         private Mock<ITokenisationService> _tokenisationServiceMock { get; set; }
-        private Mock<IUnitOfWork> _unitOfWorkMock { get; set; }
-        private Mock<ISqlDbConnection> _sqlDbConnectionMock { get; set; }
 
 
         [SetUp]
         public void Setup()
         {
             _creditCardRepositoryMock = new Mock<ICreditCardRepository>();
-            _creditCardServiceMock = new Mock<ICreditCardService>();
             _tokenisationServiceMock = new Mock<ITokenisationService>();
-            _unitOfWorkMock = new Mock<IUnitOfWork>();
-            _sqlDbConnectionMock = new Mock<ISqlDbConnection>();
 
             var creditCardDtos = new List<CreditCardDto>
             {
@@ -52,14 +46,26 @@ namespace API.CreditCard.UnitTests
             _creditCardRepositoryMock.Setup(x => x.GetAll()).ReturnsAsync(creditCardDtos);
             _tokenisationServiceMock.Setup(x => x.Decrypt(It.IsAny<string>())).Returns<string>(x => x);
 
+            _creditCardRepositoryMock.Setup(x => x.GetByQuery(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(creditCardDtos.First());
         }
 
         [Test]
-        public async Task GetAllReturnsCreditCardDetails()
+        public async Task GetAllMethodReturnsCreditCardDetails()
         {
             var creditCardService = new CreditCardService(_creditCardRepositoryMock.Object, _tokenisationServiceMock.Object);
             var creditCards = await creditCardService.GetAll();
             Assert.AreEqual(creditCards.Count(), 2);
         }
+
+        [Test]
+        public async Task GetMethodByNameAndCardNumberReturnsCreditCardDetails()
+        {
+            var creditCardService = new CreditCardService(_creditCardRepositoryMock.Object, _tokenisationServiceMock.Object);
+            var creditCard = await creditCardService.GetByQuery("Test1", "4124255442254");
+            Assert.AreEqual(creditCard.Name, "Test1");
+            Assert.AreEqual(creditCard.CardNumber, "4124255442254");
+        }
+
+        //TODO: Add more unit tests
     }
 }
